@@ -2,13 +2,13 @@
 FROM node:22-slim
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN yarn install
 
 # Install Playwright browsers (and their dependencies)
 RUN npx playwright install --with-deps
