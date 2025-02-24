@@ -1,23 +1,18 @@
-# Use a Node.js base image
-FROM node:22-slim
+# Use official Node.js image
+FROM node:18
 
 # Set the working directory
 WORKDIR /
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
-# Install dependencies
+# Copy package.json and yarn.lock first (for better caching)
+COPY package.json yarn.lock ./
 RUN yarn install
 
-# Install Playwright browsers (and their dependencies)
-RUN npx playwright install --with-deps
-
-# Copy the rest of the application code
+# Copy the rest of the app
 COPY . .
 
-# Expose the port your app listens on
+# Expose the correct port
 EXPOSE 3000
 
-# Start the application
-CMD ["node", "amazon-scraper.js"]
+# Start the server using Yarn
+CMD ["yarn", "start"]
